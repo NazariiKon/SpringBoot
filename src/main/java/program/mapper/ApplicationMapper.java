@@ -3,6 +3,7 @@ package program.mapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import program.dto.author.AnimalAddDto;
+import program.dto.author.AnimalDto;
 import program.dto.author.AuthorDto;
 import program.entities.Animal;
 import program.entities.Author;
@@ -15,4 +16,5 @@ public interface ApplicationMapper {
     AuthorDto AuthorByAuthorDto(Author author);
     Animal AnimalByAddAnimalDto(AnimalAddDto dto);
     List<AuthorDto> ListAuthorByListAuthorDto(List<Author> authors);
+    List<AnimalDto> ListAnimalByListAnimalDto(List<Animal> animals);
 }
