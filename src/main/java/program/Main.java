@@ -8,7 +8,6 @@ import org.springframework.context.annotation.Bean;
 import program.storage.StorageProperties;
 import program.storage.StorageService;
 
-
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
 public class Main {
@@ -24,7 +23,7 @@ public class Main {
                 storageService.init();
             }
             catch(Exception ex) {
-                System.out.println("----problem create folder--------");
+                System.out.println("----propblem cteate folder--------");
             }
         };
     }

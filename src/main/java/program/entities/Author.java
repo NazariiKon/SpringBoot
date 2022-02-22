@@ -12,8 +12,9 @@ public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column(name="fullname", length = 200, nullable = false)
+    @Column(name="full_name", length = 200, nullable = false)
     private String fullName;
+
     @Column(length = 200, nullable = true)
     private String image;
 

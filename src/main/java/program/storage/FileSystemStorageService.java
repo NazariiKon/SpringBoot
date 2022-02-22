@@ -1,6 +1,5 @@
 package program.storage;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
@@ -21,7 +20,7 @@ import java.util.stream.Stream;
 @Service
 public class FileSystemStorageService implements StorageService {
 
-    private final Path rootLocation;
+    private final Path rootLocation; // адреса папки
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties) {
@@ -34,14 +33,14 @@ public class FileSystemStorageService implements StorageService {
             if (file.isEmpty()) {
                 throw new StorageException("Failed to store empty file " + file.getOriginalFilename());
             }
-            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename()));
+            Files.copy(file.getInputStream(), this.rootLocation.resolve(file.getOriginalFilename())); // копіює файл в папку
         } catch (IOException e) {
             throw new StorageException("Failed to store file " + file.getOriginalFilename(), e);
         }
     }
 
     @Override
-    public Stream<Path> loadAll() {
+    public Stream<Path> loadAll() { // Загрузити всі файли з папки
         try {
             return Files.walk(this.rootLocation, 1)
                     .filter(path -> !path.equals(this.rootLocation))
@@ -55,10 +54,10 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public Path load(String filename) {
         return rootLocation.resolve(filename);
-    }
+    } // загрузити файл з папки
 
     @Override
-    public String store(String base64) {
+    public String store(String base64) { // конвертує base64 в байти і записує в папку
         try {
             if (base64.isEmpty()) {
                 throw new StorageException("Failed to store empty base64 ");
@@ -79,7 +78,7 @@ public class FileSystemStorageService implements StorageService {
     }
 
     @Override
-    public Resource loadAsResource(String filename) {
+    public Resource loadAsResource(String filename) { // зчитати файл по імені
         try {
             Path file = load(filename);
             Resource resource = new UrlResource(file.toUri());
@@ -98,10 +97,10 @@ public class FileSystemStorageService implements StorageService {
     @Override
     public void deleteAll() {
         FileSystemUtils.deleteRecursively(rootLocation.toFile());
-    }
+    } // видалити всі файли з папки
 
     @Override
-    public void init() {
+    public void init() { // створення папки якщо її немає
         try {
             if(!Files.exists(rootLocation))
             {

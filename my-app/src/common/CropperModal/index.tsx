@@ -1,8 +1,10 @@
+import "cropperjs/dist/cropper.min.css";
 import * as React from "react";
-import { Modal, Button, Col, Row } from "antd";
+import { Modal, Col, Row } from "antd";
 import Cropper from "cropperjs";
 import { ICropperProps } from "./types";
-
+import {urlBackend} from '../../http_common';
+ 
 const CropperModal: React.FC<ICropperProps> = ({
   onSelected,
   aspectRation=1/1
@@ -20,7 +22,7 @@ const CropperModal: React.FC<ICropperProps> = ({
       const url = URL.createObjectURL(file);
 
       await setVisible(true);
-      console.log("Image ref ", imgRef);
+      //console.log("Image ref ", imgRef);
       let cropper = cropperObj;
       if (!cropper) {
         cropper = new Cropper(imgRef.current as HTMLImageElement, {
@@ -34,15 +36,15 @@ const CropperModal: React.FC<ICropperProps> = ({
       setCropperObj(cropper);
     }
   };
-  const handleOk = async () => {
-    const base64 = cropperObj?.getCroppedCanvas().toDataURL() as string;
-    await setVisible(false);
+  const handleOk = async () => { // на "ок"
+    const base64 = cropperObj?.getCroppedCanvas().toDataURL() as string; // отримання base64 з кроппера
+    await setVisible(false); // сховати модалку
     onSelected(base64);
   };
   return (
     <>
       <label htmlFor="uploading">
-        <img src="http://localhost:8086/files/plus.png" alt="" width="100%" style={{ cursor: "pointer" }} />
+        <img src={`${urlBackend}files/add.jpg`} alt="" width="100%" style={{ cursor: "pointer" }} />
       </label>
 
       <input
@@ -64,7 +66,7 @@ const CropperModal: React.FC<ICropperProps> = ({
           <Col md={18} xs={24}>
             <div>
               <img
-                src="https://vovalohika.tk/images/1200_gntox1zw.ipw.jpeg"
+                src={`${urlBackend}files/loading.gif`}
                 width="100%"
                 style={{ maxHeight: "600px" }}
                 ref={imgRef}
@@ -88,3 +90,4 @@ const CropperModal: React.FC<ICropperProps> = ({
 };
 
 export default CropperModal;
+

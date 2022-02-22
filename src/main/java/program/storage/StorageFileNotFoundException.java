@@ -10,3 +10,4 @@ public class StorageFileNotFoundException extends StorageException {
         super(message, cause);
     }
 }
+
